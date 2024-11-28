@@ -8,31 +8,34 @@
     android:background="@color/mainBlue"
     tools:context=".SplashActivity">
 
-    <TextView
-        android:id="@+id/splashLogoTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/regular"
-        android:text="planescaper"
-        android:textColor="@color/white"
-        android:textSize="40dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:foregroundGravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/splashLogoIV" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/splashLogoIV"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="240dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/splashLogoIV"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/plane_logo" />
+        <ImageView
+            android:id="@+id/splashLogoIV"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:srcCompat="@drawable/plane_logo" />
+
+        <TextView
+            android:id="@+id/splashLogoTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="planescaper"
+            android:textColor="@color/white"
+            android:textSize="50dp" />
+
+
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

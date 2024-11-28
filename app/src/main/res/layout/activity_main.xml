@@ -5,9 +5,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_wallpaper"
     tools:context=".MainActivity">
 
 
-
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World"
+        tools:layout_editor_absoluteX="178dp"
+        tools:layout_editor_absoluteY="314dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
