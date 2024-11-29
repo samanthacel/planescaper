@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_wallpaper"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
 
-    <LinearLayout android:id="@+id/loginLL"
+    <LinearLayout android:id="@+id/registerLL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -22,14 +22,14 @@
         >
 
         <TextView
-            android:id="@+id/loginTitleTV"
+            android:id="@+id/registerTitleTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome back!"
+            android:text="Create Account"
             android:textColor="@color/white"
             android:textSize="40dp" />
 
-        <LinearLayout android:id="@+id/loginEmailField"
+        <LinearLayout android:id="@+id/registerNameField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -42,15 +42,15 @@
             android:layout_marginTop="36dp">
 
             <TextView
-                android:id="@+id/loginEmailTV"
+                android:id="@+id/registerNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email"
+                android:text="Name"
                 android:textColor="@color/white"
                 android:textSize="16dp"
                 android:layout_marginBottom="4dp"/>
 
-            <EditText android:id="@+id/loginEmailET"
+            <EditText android:id="@+id/registerNameET"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/rounded"
@@ -60,9 +60,10 @@
                 android:textSize="14dp"
                 android:padding="12dp"
                 />
+
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/loginPasswordField"
+        <LinearLayout android:id="@+id/registerEmailField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -75,7 +76,40 @@
             android:layout_marginTop="18dp">
 
             <TextView
-                android:id="@+id/loginPasswordTV"
+                android:id="@+id/registerEmailTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText android:id="@+id/registerEmailET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded"
+                android:backgroundTint="@color/white"
+                android:hint="Type here..."
+                android:textColorHint="@color/medGray"
+                android:textSize="14dp"
+                android:padding="12dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/registerPasswordField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:foregroundGravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="18dp">
+
+            <TextView
+                android:id="@+id/registerPasswordTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Password"
@@ -84,7 +118,7 @@
                 android:layout_marginBottom="4dp"/>
 
             <EditText
-                android:id="@+id/editTextTextPassword"
+                android:id="@+id/registerPasswordET"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
@@ -100,10 +134,10 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/loginSignInBtn"
+            android:id="@+id/registerSignUpBtn"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Sign in"
+            android:text="Sign up"
             android:fontFamily="@font/bold"
             android:textSize="20dp"
             android:textColor="@color/white"
@@ -114,10 +148,10 @@
             />
 
         <Button
-            android:id="@+id/loginSignUpBtn"
+            android:id="@+id/registerSignInBtn"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Sign up"
+            android:text="Sign in"
             android:fontFamily="@font/bold"
             android:textSize="20dp"
             android:textColor="@color/yellow"
@@ -127,8 +161,5 @@
 
             />
     </LinearLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

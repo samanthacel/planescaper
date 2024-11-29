@@ -10,29 +10,31 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        Button loginSignupBtn = findViewById(R.id.loginSignUpBtn);
-        Button loginSigninBtn = findViewById(R.id.loginSignInBtn);
+        Button registerSigninBtn = findViewById(R.id.registerSignInBtn);
+        Button registerSignupBtn = findViewById(R.id.registerSignUpBtn);
 
-        loginSignupBtn.setOnClickListener(v -> {
-            Intent toRegister = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(toRegister);
+        registerSigninBtn.setOnClickListener(v -> {
+            Intent toLogin = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(toLogin);
         });
 
-        loginSigninBtn.setOnClickListener(v -> {
-            Intent toMain = new Intent(LoginActivity.this, MainActivity.class);
+        registerSignupBtn.setOnClickListener(v -> {
+            Intent toMain = new Intent(RegisterActivity.this, MainActivity.class);
             startActivity(toMain);
         });
 
