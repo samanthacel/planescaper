@@ -3,13 +3,13 @@
 
     <item android:id="@+id/menuSaved"
         android:title="Saved"
-        android:icon="@drawable/saved_menu"/>
+        android:icon="@drawable/menu_saved"/>
     <item android:id="@+id/menuPlan"
         android:title="Plan"
-        android:icon="@drawable/plan_menu"
+        android:icon="@drawable/menu_plan"
         />
     <item android:id="@+id/menuOrders"
         android:title="Orders"
-        android:icon="@drawable/orders_menu"
+        android:icon="@drawable/menu_orders"
         />
 </menu>
