@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         popularRV = findViewById(R.id.mainPopularRV);
         progressBar = findViewById(R.id.progressBar);
 
-        initPopularData();
         PopularTourAdapter adapter = new PopularTourAdapter(this, tourData);
 
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);

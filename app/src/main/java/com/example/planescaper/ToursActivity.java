@@ -53,8 +53,6 @@ public class ToursActivity extends AppCompatActivity {
         toursRV = findViewById(R.id.toursRV);
         progressBar = findViewById(R.id.progressBar);
 
-        initTourData();
-
         TourAdapter adapter = new TourAdapter(this, tourData);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -83,7 +81,6 @@ public class ToursActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void loadData() {
         progressBar.setVisibility(View.VISIBLE);
