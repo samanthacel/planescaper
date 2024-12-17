@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "611588453110",
+    "firebase_url": "https://planescaper-19e29-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "planescaper-19e29",
+    "storage_bucket": "planescaper-19e29.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611588453110:android:26442c6542b414cfa032d7",
+        "android_client_info": {
+          "package_name": "com.example.planescaper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB72AKNZ8gq3y2vrLQjXyHDUdECz3WXfO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

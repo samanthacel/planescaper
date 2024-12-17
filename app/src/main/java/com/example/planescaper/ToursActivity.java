@@ -3,7 +3,6 @@ package com.example.planescaper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -18,23 +17,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planescaper.adapter.PopularTourAdapter;
+import com.example.planescaper.adapter.TourAdapter;
 import com.example.planescaper.data.TourData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+public class ToursActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-
-    RecyclerView popularRV;
+    RecyclerView toursRV;
     ProgressBar progressBar;
     List<TourData> tourData = new ArrayList<>();
     DatabaseReference databaseReference;
@@ -44,10 +40,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        FirebaseApp.initializeApp(this);
         EdgeToEdge.enable(this);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        setContentView(R.layout.activity_tours);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.tours), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -55,22 +50,21 @@ public class MainActivity extends AppCompatActivity {
 
         navbar();
 
-        popularRV = findViewById(R.id.mainPopularRV);
+        toursRV = findViewById(R.id.toursRV);
         progressBar = findViewById(R.id.progressBar);
 
-        initPopularData();
-        PopularTourAdapter adapter = new PopularTourAdapter(this, tourData);
+        initTourData();
 
+        TourAdapter adapter = new TourAdapter(this, tourData);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        popularRV.setLayoutManager(layoutManager);
-        popularRV.setAdapter(adapter);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        toursRV.setLayoutManager(layoutManager);
+        toursRV.setAdapter(adapter);
 
+        loadData();
 //        databaseReference = FirebaseDatabase.getInstance().getReference("trips");
 //        progressBar.setVisibility(View.VISIBLE);
 
-        loadData();
-//        fetchToursFromFirebase(adapter);
     }
 
     public void navbar(){
@@ -79,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.menuTours:
-                        Intent intentTours = new Intent(MainActivity.this, ToursActivity.class);
-                        startActivity(intentTours);
+                    case R.id.menuHome:
+                        Intent intentHome = new Intent(ToursActivity.this, MainActivity.class);
+                        startActivity(intentHome);
                         return true;
                     default:
                         return false;
@@ -90,34 +84,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchToursFromFirebase(PopularTourAdapter adapter) {
-        progressBar.setVisibility(View.VISIBLE);
-
-        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                tourData.clear();
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    TourData tour = dataSnapshot.getValue(TourData.class);
-
-                    if (tour != null) {
-                        Log.d("MainActivity", "Fetched tour: " + tour.getName());
-                        tourData.add(tour);
-                    }
-                }
-
-                adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                progressBar.setVisibility(View.GONE);
-                Log.e("MainActivity", "Error fetching data: " + error.getMessage());
-            }
-        });
-    }
 
     private void loadData() {
         progressBar.setVisibility(View.VISIBLE);
@@ -125,14 +91,14 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                tourData.addAll(initPopularData());
-                popularRV.getAdapter().notifyDataSetChanged();
+                tourData.addAll(initTourData());
+                toursRV.getAdapter().notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }
         }, 500);
     }
 
-    private List<TourData> initPopularData() {
+    private List<TourData> initTourData() {
         tourData = new ArrayList<>();
 
         tourData.add(new TourData(
@@ -217,7 +183,4 @@ public class MainActivity extends AppCompatActivity {
 
         return tourData;
     }
-
-
-
 }
