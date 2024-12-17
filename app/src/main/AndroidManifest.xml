@@ -18,8 +18,7 @@
             android:name=".OrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".ToursActivity"
-            android:exported="false" />
+            android:name=".ToursActivity"/>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
