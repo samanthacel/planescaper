@@ -16,33 +16,28 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.planescaper.adapter.PopularTourAdapter;
-import com.example.planescaper.adapter.TourAdapter;
+import com.example.planescaper.adapter.OrderAdapter;
 import com.example.planescaper.data.TourData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ToursActivity extends AppCompatActivity {
+public class OrdersActivity extends AppCompatActivity {
 
-    RecyclerView toursRV;
+    RecyclerView ordersRV;
     ProgressBar progressBar;
-    List<TourData> tourData = new ArrayList<>();
-    DatabaseReference databaseReference;
-    ValueEventListener eventListener;
+    List<TourData> orderData = new ArrayList<>();
     BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_tours);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.tours), (v, insets) -> {
+        setContentView(R.layout.activity_orders);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.orders), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -50,19 +45,18 @@ public class ToursActivity extends AppCompatActivity {
 
         navbar();
 
-        toursRV = findViewById(R.id.toursRV);
+        ordersRV = findViewById(R.id.ordersRV);
         progressBar = findViewById(R.id.progressBar);
 
-        TourAdapter adapter = new TourAdapter(this, tourData);
+        OrderAdapter adapter = new OrderAdapter(this, orderData);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        toursRV.setLayoutManager(layoutManager);
-        toursRV.setAdapter(adapter);
+        ordersRV.setLayoutManager(layoutManager);
+        ordersRV.setAdapter(adapter);
 
         loadData();
 //        databaseReference = FirebaseDatabase.getInstance().getReference("trips");
 //        progressBar.setVisibility(View.VISIBLE);
-
     }
 
     public void navbar(){
@@ -72,12 +66,12 @@ public class ToursActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.menuHome:
-                        Intent intentHome = new Intent(ToursActivity.this, MainActivity.class);
+                        Intent intentHome = new Intent(OrdersActivity.this, MainActivity.class);
                         startActivity(intentHome);
                         return true;
-                    case R.id.menuOrders:
-                        Intent intentOrders = new Intent(ToursActivity.this, OrdersActivity.class);
-                        startActivity(intentOrders);
+                    case R.id.menuTours:
+                        Intent intentTours = new Intent(OrdersActivity.this, ToursActivity.class);
+                        startActivity(intentTours);
                         return true;
                     default:
                         return false;
@@ -92,17 +86,16 @@ public class ToursActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                tourData.addAll(initTourData());
-                toursRV.getAdapter().notifyDataSetChanged();
+                orderData.addAll(initOrdersData());
+                ordersRV.getAdapter().notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }
         }, 500);
     }
+    private List<TourData> initOrdersData() {
+        orderData = new ArrayList<>();
 
-    private List<TourData> initTourData() {
-        tourData = new ArrayList<>();
-
-        tourData.add(new TourData(
+        orderData.add(new TourData(
                 "Mount Bromo",
                 "https://images.unsplash.com/photo-1580137491561-92d55f5ab0d1",
                 "East Java, Indonesia",
@@ -118,7 +111,7 @@ public class ToursActivity extends AppCompatActivity {
                 0 // Person set to 0
         ));
 
-        tourData.add(new TourData(
+        orderData.add(new TourData(
                 "Eiffel Tower",
                 "https://images.unsplash.com/photo-1555685811-e5729d4b8b09",
                 "Paris, France",
@@ -134,7 +127,7 @@ public class ToursActivity extends AppCompatActivity {
                 0 // Person set to 0
         ));
 
-        tourData.add(new TourData(
+        orderData.add(new TourData(
                 "Great Wall of China",
                 "https://images.unsplash.com/photo-1536741534982-cfb3751302f5",
                 "Beijing, China",
@@ -150,7 +143,7 @@ public class ToursActivity extends AppCompatActivity {
                 0 // Person set to 0
         ));
 
-        tourData.add(new TourData(
+        orderData.add(new TourData(
                 "Machu Picchu",
                 "https://images.unsplash.com/photo-1575936123450-500ad5d1e300",
                 "Cusco, Peru",
@@ -166,7 +159,7 @@ public class ToursActivity extends AppCompatActivity {
                 0 // Person set to 0
         ));
 
-        tourData.add(new TourData(
+        orderData.add(new TourData(
                 "Sydney Opera House",
                 "https://images.unsplash.com/photo-1588961844214-2cd11001b04a",
                 "Sydney, Australia",
@@ -182,6 +175,6 @@ public class ToursActivity extends AppCompatActivity {
                 0 // Person set to 0
         ));
 
-        return tourData;
+        return orderData;
     }
 }

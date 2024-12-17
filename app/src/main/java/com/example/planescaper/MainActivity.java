@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
                         Intent intentTours = new Intent(MainActivity.this, ToursActivity.class);
                         startActivity(intentTours);
                         return true;
+                    case R.id.menuOrders:
+                        Intent intentOrders = new Intent(MainActivity.this, OrdersActivity.class);
+                        startActivity(intentOrders);
+                        return true;
                     default:
                         return false;
                 }
