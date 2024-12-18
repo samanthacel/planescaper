@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planescaper.adapter.OrderAdapter;
+import com.example.planescaper.data.OrderData;
 import com.example.planescaper.data.TourData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -48,13 +49,15 @@ public class OrdersActivity extends AppCompatActivity {
         ordersRV = findViewById(R.id.ordersRV);
         progressBar = findViewById(R.id.progressBar);
 
+        orderData = OrderData.getInstance().getOrderData();
+
         OrderAdapter adapter = new OrderAdapter(this, orderData);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         ordersRV.setLayoutManager(layoutManager);
         ordersRV.setAdapter(adapter);
 
-        loadData();
+//        loadData();
 //        databaseReference = FirebaseDatabase.getInstance().getReference("trips");
 //        progressBar.setVisibility(View.VISIBLE);
     }

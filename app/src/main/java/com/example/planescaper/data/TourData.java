@@ -36,7 +36,7 @@ public class TourData {
 
     public int getTotalPrice() {
         this.totalPrice = this.personPrice * this.person;
-        return this.totalPrice;
+        return totalPrice;
     }
 
     public String getName() {

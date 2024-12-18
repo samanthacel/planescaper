@@ -1,5 +1,6 @@
 package com.example.planescaper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.planescaper.data.OrderData;
 import com.example.planescaper.data.TourData;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -37,23 +39,7 @@ public class DetailActivity extends AppCompatActivity {
             return insets;
         });
 
-        backBtn = findViewById(R.id.detailBackBtn);
-        placeIV = findViewById(R.id.detailPlaceIV);
-        placeTV = findViewById(R.id.detailPlaceTV);
-        locationTV = findViewById(R.id.detailLocationTV);
-        dateTV = findViewById(R.id.detailDateTV);
-        hotelTV = findViewById(R.id.detailHotelTV);
-        planeTV = findViewById(R.id.detailPlaneTV);
-        guideTV = findViewById(R.id.detailGuideTV);
-        descTV = findViewById(R.id.detailDescTV);
-        personTV = findViewById(R.id.detailPersonTV);
-        tourpriceTV = findViewById(R.id.detailTourpriceTV);
-        taxTV = findViewById(R.id.detailTaxTV);
-        personPriceTV = findViewById(R.id.detailPersonPriceTV);
-        totalPriceTV = findViewById(R.id.detailTotalPriceTV);
-        bookBtn = findViewById(R.id.detailBookBtn);
-        minBtn = findViewById(R.id.detailMinBtn);
-        plusBtn = findViewById(R.id.detailPlusBtn);
+        bindId();
 
         backBtn.setOnClickListener(v -> finish());
 
@@ -82,7 +68,33 @@ public class DetailActivity extends AppCompatActivity {
             updateData(tour);
         });
 
+        bookBtn.setOnClickListener(v -> {
+            OrderData.getInstance().addOrder(tour);
+            Intent intent = new Intent(DetailActivity.this, TicketActivity.class);
+            intent.putExtra("orderData", new Gson().toJson(tour));
+            startActivity(intent);
+        });
 
+    }
+
+    private void bindId(){
+        backBtn = findViewById(R.id.detailBackBtn);
+        placeIV = findViewById(R.id.detailPlaceIV);
+        placeTV = findViewById(R.id.detailPlaceTV);
+        locationTV = findViewById(R.id.detailLocationTV);
+        dateTV = findViewById(R.id.detailDateTV);
+        hotelTV = findViewById(R.id.detailHotelTV);
+        planeTV = findViewById(R.id.detailPlaneTV);
+        guideTV = findViewById(R.id.detailGuideTV);
+        descTV = findViewById(R.id.detailDescTV);
+        personTV = findViewById(R.id.detailPersonTV);
+        tourpriceTV = findViewById(R.id.detailTourpriceTV);
+        taxTV = findViewById(R.id.detailTaxTV);
+        personPriceTV = findViewById(R.id.detailPersonPriceTV);
+        totalPriceTV = findViewById(R.id.detailTotalPriceTV);
+        bookBtn = findViewById(R.id.detailBookBtn);
+        minBtn = findViewById(R.id.detailMinBtn);
+        plusBtn = findViewById(R.id.detailPlusBtn);
     }
 
     private void updateData(TourData tour){

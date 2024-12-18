@@ -1,6 +1,7 @@
 package com.example.planescaper.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.planescaper.DetailActivity;
 import com.example.planescaper.R;
+import com.example.planescaper.TicketActivity;
 import com.example.planescaper.data.TourData;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -41,8 +45,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         holder.placeTV.setText(order.getName());
         holder.dateTV.setText(order.getDate());
-        holder.personTV.setText(String.valueOf(order.getPerson()));
+        holder.personTV.setText(String.valueOf(order.getPerson() + " person"));
         holder.priceTV.setText(order.getFormattedPrice(order.getPrice()));
+
+        holder.detailBtn.setOnClickListener(v->{
+            Intent intent = new Intent(context, TicketActivity.class);
+            intent.putExtra("orderData", new Gson().toJson(order));
+            context.startActivity(intent);
+        });
     }
 
     @Override
