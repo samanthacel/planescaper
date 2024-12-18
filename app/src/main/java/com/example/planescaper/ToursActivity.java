@@ -114,8 +114,7 @@ public class ToursActivity extends AppCompatActivity {
                 "3",
                 "Adventure",
                 4.8f,
-                1200000,
-                0 // Person set to 0
+                1200000
         ));
 
         tourData.add(new TourData(
@@ -130,8 +129,7 @@ public class ToursActivity extends AppCompatActivity {
                 "2",
                 "Landmarks",
                 4.7f,
-                800000,
-                0 // Person set to 0
+                800000
         ));
 
         tourData.add(new TourData(
@@ -146,8 +144,7 @@ public class ToursActivity extends AppCompatActivity {
                 "4",
                 "Cultural",
                 4.9f,
-                1500000,
-                0 // Person set to 0
+                1500000
         ));
 
         tourData.add(new TourData(
@@ -162,8 +159,7 @@ public class ToursActivity extends AppCompatActivity {
                 "5",
                 "Historical",
                 4.6f,
-                700000,
-                0 // Person set to 0
+                700000
         ));
 
         tourData.add(new TourData(
@@ -178,8 +174,7 @@ public class ToursActivity extends AppCompatActivity {
                 "3",
                 "Theater",
                 4.8f,
-                600000,
-                0 // Person set to 0
+                600000
         ));
 
         return tourData;

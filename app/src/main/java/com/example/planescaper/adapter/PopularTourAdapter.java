@@ -46,7 +46,7 @@ public class PopularTourAdapter extends RecyclerView.Adapter<PopularTourAdapter.
         holder.ratingTV.setText(String.valueOf(tour.getRating()));
         holder.placeTV.setText(tour.getName());
         holder.locationTV.setText(tour.getLocation());
-        holder.priceTV.setText(tour.getFormattedPrice());
+        holder.priceTV.setText(tour.getFormattedPrice(tour.getPrice()));
     }
 
     @Override

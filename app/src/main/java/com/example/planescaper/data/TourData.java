@@ -1,13 +1,15 @@
 package com.example.planescaper.data;
 
+import java.text.DecimalFormat;
+
 public class TourData {
     private String name, imageUrl, location, hotel, airplane, date, description, guide, nights, category;
     private float rating;
-    private int price, person;
+    private int price, person = 1, tax, personPrice, totalPrice;
 
     public TourData(){}
 
-    public TourData(String name, String imageUrl, String location, String hotel, String airplane, String date, String description, String guide, String nights, String category, float rating, int price, int person) {
+    public TourData(String name, String imageUrl, String location, String hotel, String airplane, String date, String description, String guide, String nights, String category, float rating, int price) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.location = location;
@@ -20,7 +22,21 @@ public class TourData {
         this.category = category;
         this.rating = rating;
         this.price = price;
-        this.person = person;
+    }
+
+    public int getTax(){
+        this.tax = (int)(this.price*0.12);
+        return tax;
+    }
+
+    public int getPersonPrice(){
+        this.personPrice = this.tax + this.price;
+        return personPrice;
+    }
+
+    public int getTotalPrice() {
+        this.totalPrice = this.personPrice * this.person;
+        return this.totalPrice;
     }
 
     public String getName() {
@@ -127,8 +143,9 @@ public class TourData {
         this.person = person;
     }
 
-    public String getFormattedPrice() {
-        return "Rp" + price + "/pax";
+    public String getFormattedPrice(int formattedPrice) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return "Rp" + formatter.format(price) + "/pax";
     }
 
 }

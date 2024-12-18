@@ -42,7 +42,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.placeTV.setText(order.getName());
         holder.dateTV.setText(order.getDate());
         holder.personTV.setText(String.valueOf(order.getPerson()));
-        holder.priceTV.setText(order.getFormattedPrice());
+        holder.priceTV.setText(order.getFormattedPrice(order.getPrice()));
     }
 
     @Override

@@ -23,7 +23,7 @@
             android:id="@+id/splashLogoIV"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            app:srcCompat="@drawable/icon_plane" />
+            app:srcCompat="@drawable/logo_plane" />
 
         <TextView
             android:id="@+id/splashLogoTV"

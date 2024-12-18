@@ -15,10 +15,12 @@
         android:theme="@style/Theme.Planescaper"
         tools:targetApi="31">
         <activity
-            android:name=".OrdersActivity"
+            android:name=".DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ToursActivity"/>
+            android:name=".OrdersActivity"
+            android:exported="false" />
+        <activity android:name=".ToursActivity" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
