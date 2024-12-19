@@ -51,7 +51,7 @@ public class DetailActivity extends AppCompatActivity {
         locationTV.setText(tour.getLocation());
         dateTV.setText(tour.getDate());
         hotelTV.setText(tour.getHotel());
-        planeTV.setText(tour.getAirplane());
+        planeTV.setText(tour.getPlane());
         guideTV.setText(tour.getGuide());
         descTV.setText(tour.getDescription());
 

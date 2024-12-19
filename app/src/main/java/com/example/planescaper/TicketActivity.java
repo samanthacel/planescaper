@@ -52,7 +52,7 @@ public class TicketActivity extends AppCompatActivity {
         locationTV.setText(tour.getLocation());
         dateTV.setText(tour.getDate());
         hotelTV.setText(tour.getHotel());
-        planeTV.setText(tour.getAirplane());
+        planeTV.setText(tour.getPlane());
         guideTV.setText(tour.getGuide());
         personTV.setText(String.valueOf(tour.getPerson() + " person"));
 

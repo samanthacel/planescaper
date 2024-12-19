@@ -3,22 +3,23 @@ package com.example.planescaper.data;
 import java.text.DecimalFormat;
 
 public class TourData {
-    private String name, imageUrl, location, hotel, airplane, date, description, guide, nights, category;
+    private String placeName, imageUrl, location, hotel, plane, date, itinerary, guide, category;
     private float rating;
     private int price, person = 1, tax, personPrice, totalPrice;
 
-    public TourData(){}
+    public TourData(){
 
-    public TourData(String name, String imageUrl, String location, String hotel, String airplane, String date, String description, String guide, String nights, String category, float rating, int price) {
-        this.name = name;
-        this.imageUrl = imageUrl;
+    }
+
+    public TourData(String placeName, String imageUrl,String location, String hotel, String plane, String date, String itinerary, String guide, String nights, String category, float rating, int price) {
+        this.placeName = placeName;
         this.location = location;
+        this.imageUrl = imageUrl;
         this.hotel = hotel;
-        this.airplane = airplane;
+        this.plane = plane;
         this.date = date;
-        this.description = description;
+        this.itinerary = itinerary;
         this.guide = guide;
-        this.nights = nights;
         this.category = category;
         this.rating = rating;
         this.price = price;
@@ -40,11 +41,11 @@ public class TourData {
     }
 
     public String getName() {
-        return name;
+        return placeName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String placeName) {
+        this.placeName = placeName;
     }
 
     public String getImageUrl() {
@@ -71,12 +72,12 @@ public class TourData {
         this.hotel = hotel;
     }
 
-    public String getAirplane() {
-        return airplane;
+    public String getPlane() {
+        return plane;
     }
 
-    public void setAirplane(String airplane) {
-        this.airplane = airplane;
+    public void setPlane(String plane) {
+        this.plane = plane;
     }
 
     public String getDate() {
@@ -88,11 +89,11 @@ public class TourData {
     }
 
     public String getDescription() {
-        return description;
+        return itinerary;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String itinerary) {
+        this.itinerary = itinerary;
     }
 
     public String getGuide() {
@@ -101,14 +102,6 @@ public class TourData {
 
     public void setGuide(String guide) {
         this.guide = guide;
-    }
-
-    public String getNights() {
-        return nights;
-    }
-
-    public void setNights(String nights) {
-        this.nights = nights;
     }
 
     public String getCategory() {
