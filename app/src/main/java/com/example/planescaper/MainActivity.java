@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     ValueEventListener eventListener;
     BottomNavigationView bottomNavigationView;
+    TextView mainNameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+
         navbar();
+
+
+        mainNameTextView = findViewById(R.id.mainNameTV);
+        String username = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                .getString("username", "Username");
+        mainNameTextView.setText("Hey, " + username + "!");
 
         popularRV = findViewById(R.id.mainPopularRV);
         progressBar = findViewById(R.id.progressBar);

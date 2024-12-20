@@ -77,17 +77,27 @@ public class LoginActivity extends AppCompatActivity {
         databaseReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 boolean userFound = false;
+                String username = null;
+
                 for (DataSnapshot snapshot : task.getResult().getChildren()) {
                     String dbEmail = snapshot.child("email").getValue(String.class);
                     String dbPassword = snapshot.child("password").getValue(String.class);
+                    String dbName = snapshot.child("name").getValue(String.class);
 
                     if (dbEmail != null && dbPassword != null && dbEmail.equals(email) && dbPassword.equals(password)) {
                         userFound = true;
+                        username = dbName; // Get the name from the database
                         break;
                     }
                 }
 
                 if (userFound) {
+                    // Save username in SharedPreferences
+                    getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                            .edit()
+                            .putString("username", username)
+                            .apply();
+
                     Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                     Intent toMain = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(toMain);
@@ -100,4 +110,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
