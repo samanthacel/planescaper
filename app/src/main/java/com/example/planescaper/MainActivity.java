@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+
         navbar();
 
         popularRV = findViewById(R.id.mainPopularRV);
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         fetchToursFromFirebase(adapter);
 
     }
+
 
     public void navbar(){
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
