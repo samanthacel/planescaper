@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -21,6 +22,11 @@ import com.example.planescaper.data.OrderData;
 import com.example.planescaper.data.TourData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +37,7 @@ public class OrdersActivity extends AppCompatActivity {
     ProgressBar progressBar;
     List<TourData> orderData = new ArrayList<>();
     BottomNavigationView bottomNavigationView;
+    DatabaseReference databaseReference;
 
 
     @Override
@@ -49,7 +56,6 @@ public class OrdersActivity extends AppCompatActivity {
         ordersRV = findViewById(R.id.ordersRV);
         progressBar = findViewById(R.id.progressBar);
 
-        orderData = OrderData.getInstance().getOrderData();
 
         OrderAdapter adapter = new OrderAdapter(this, orderData);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
@@ -57,8 +63,33 @@ public class OrdersActivity extends AppCompatActivity {
         ordersRV.setLayoutManager(layoutManager);
         ordersRV.setAdapter(adapter);
 
-//        databaseReference = FirebaseDatabase.getInstance().getReference("trips");
-//        progressBar.setVisibility(View.VISIBLE);
+        databaseReference = FirebaseDatabase.getInstance().getReference("orders");
+        fetchOrdersFromFirebase(adapter);
+
+    }
+
+    private void fetchOrdersFromFirebase(OrderAdapter adapter) {
+        DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders");
+        ordersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                orderData.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    TourData tour = dataSnapshot.getValue(TourData.class);
+                    if (tour != null) {
+                        orderData.add(tour);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(OrdersActivity.this, "Failed to load orders", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
     public void navbar(){

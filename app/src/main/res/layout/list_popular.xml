@@ -13,10 +13,9 @@
         android:id="@+id/popularPlaceIV"
         android:layout_width="240dp"
         android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_top"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,21 +25,21 @@
         android:id="@+id/popularRatingTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="7dp"
         android:layout_marginEnd="22dp"
         android:text="4.5"
         android:textColor="@color/yellow"
         android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/popularPlaceIV" />
 
     <ImageView
         android:layout_width="12dp"
         android:layout_height="12dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popularPlaceIV"
         app:srcCompat="@drawable/icon_star" />
 
     <TextView
@@ -48,21 +47,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="8dp"
         android:text="Bromo Mountain"
         android:textColor="@color/black"
         android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/popularPlaceIV" />
 
     <ImageView
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/popularPlaceTV"
         app:srcCompat="@drawable/icon_location" />
 
     <TextView
@@ -70,25 +69,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="125dp"
         android:text="East Java, Indonesia"
         android:textColor="@color/medGray"
         android:textSize="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/popularPlaceTV" />
 
     <TextView
         android:id="@+id/popularPriceTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="142dp"
+        android:layout_marginTop="2dp"
         android:text="Rp950.000/person"
         android:textColor="@color/mainBlue"
         android:textSize="10dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/popularLocationTV" />
 
 
 

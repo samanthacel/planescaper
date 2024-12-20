@@ -46,7 +46,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.placeTV.setText(order.getName());
         holder.dateTV.setText(order.getDate());
         holder.personTV.setText(String.valueOf(order.getPerson() + " person"));
-        holder.priceTV.setText(order.getFormattedPrice(order.getPrice()));
+        holder.guideTV.setText(order.getGuide());
 
         holder.detailBtn.setOnClickListener(v->{
             Intent intent = new Intent(context, TicketActivity.class);
@@ -61,7 +61,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     public class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView placeTV, dateTV, personTV, priceTV;
+        TextView placeTV, dateTV, personTV, guideTV;
         Button detailBtn;
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,7 +69,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             placeTV = itemView.findViewById(R.id.orderPlaceTV);
             dateTV = itemView.findViewById(R.id.orderDateTV);
             personTV = itemView.findViewById(R.id.orderPersonTV);
-            priceTV = itemView.findViewById(R.id.orderPriceTV);
+            guideTV = itemView.findViewById(R.id.orderGuideTV);
             detailBtn = itemView.findViewById(R.id.orderDetailBtn);
         }
     }

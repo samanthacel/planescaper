@@ -1,6 +1,7 @@
 package com.example.planescaper.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.planescaper.DetailActivity;
 import com.example.planescaper.R;
 import com.example.planescaper.data.TourData;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,6 +50,13 @@ public class PopularTourAdapter extends RecyclerView.Adapter<PopularTourAdapter.
         holder.placeTV.setText(tour.getName());
         holder.locationTV.setText(tour.getLocation());
         holder.priceTV.setText(tour.getFormattedPrice(tour.getPrice()));
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailActivity.class);
+            String tourJson = new Gson().toJson(tour);
+            intent.putExtra("tourData", tourJson);
+            context.startActivity(intent);
+        });
     }
 
     @Override

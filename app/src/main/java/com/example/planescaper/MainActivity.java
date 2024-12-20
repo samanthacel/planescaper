@@ -66,11 +66,9 @@ public class MainActivity extends AppCompatActivity {
         popularRV.setLayoutManager(layoutManager);
         popularRV.setAdapter(adapter);
 
-//        databaseReference = FirebaseDatabase.getInstance().getReference("trips");
-//        fetchToursFromFirebase(adapter);
+        databaseReference = FirebaseDatabase.getInstance().getReference("tours");
+        fetchToursFromFirebase(adapter);
 
-
-        loadData();
     }
 
     public void navbar(){
@@ -97,18 +95,21 @@ public class MainActivity extends AppCompatActivity {
     private void fetchToursFromFirebase(PopularTourAdapter adapter) {
         progressBar.setVisibility(View.VISIBLE);
 
-        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.orderByChild("rating").limitToLast(5).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 tourData.clear();
 
+                List<TourData> tempList = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     TourData tour = dataSnapshot.getValue(TourData.class);
-
                     if (tour != null) {
-                        Log.d("MainActivity", "Fetched tour: " + tour.getName());
-                        tourData.add(tour);
+                        tempList.add(tour);
                     }
+                }
+
+                for (int i = tempList.size() - 1; i >= 0; i--) {
+                    tourData.add(tempList.get(i));
                 }
 
                 adapter.notifyDataSetChanged();
@@ -121,100 +122,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("MainActivity", "Error fetching data: " + error.getMessage());
             }
         });
-    }
-
-    private void loadData() {
-        progressBar.setVisibility(View.VISIBLE);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                tourData.addAll(initPopularData());
-                popularRV.getAdapter().notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-            }
-        }, 500);
-    }
-
-    private List<TourData> initPopularData() {
-        tourData = new ArrayList<>();
-
-        tourData.add(new TourData(
-                "Mount Bromo",
-                "https://images.unsplash.com/photo-1580137491561-92d55f5ab0d1",
-                "East Java, Indonesia",
-                "Hotel Le Meurice",
-                "Air France",
-                "2024-06-15",
-                "Explore the iconic Mount Bromo, famous for its sunrise and volcanic activity.",
-                "Jean Dupont",
-                "3",
-                "Adventure",
-                4.8f,
-                1200000
-        ));
-
-        tourData.add(new TourData(
-                "Eiffel Tower",
-                "https://images.unsplash.com/photo-1555685811-e5729d4b8b09",
-                "Paris, France",
-                "Hotel de Russie",
-                "Alitalia",
-                "2024-07-20",
-                "Discover the grandeur of the Eiffel Tower and enjoy the beauty of Paris.",
-                "Maria Rossi",
-                "2",
-                "Landmarks",
-                4.7f,
-                800000
-        ));
-
-        tourData.add(new TourData(
-                "Great Wall of China",
-                "https://images.unsplash.com/photo-1536741534982-cfb3751302f5",
-                "Beijing, China",
-                "The Peninsula Beijing",
-                "China Airlines",
-                "2024-08-05",
-                "Walk along the historic Great Wall and explore ancient Chinese culture.",
-                "Wang Wei",
-                "4",
-                "Cultural",
-                4.9f,
-                1500000
-        ));
-
-        tourData.add(new TourData(
-                "Machu Picchu",
-                "https://images.unsplash.com/photo-1575936123450-500ad5d1e300",
-                "Cusco, Peru",
-                "Hotel Inkaterra",
-                "LATAM Airlines",
-                "2024-09-10",
-                "Visit the ancient Incan city of Machu Picchu and enjoy breathtaking views.",
-                "Carlos Martinez",
-                "5",
-                "Historical",
-                4.6f,
-                700000
-        ));
-
-        tourData.add(new TourData(
-                "Sydney Opera House",
-                "https://images.unsplash.com/photo-1588961844214-2cd11001b04a",
-                "Sydney, Australia",
-                "Shangri-La Sydney",
-                "Qantas Airways",
-                "2024-10-25",
-                "Enjoy a tour of the Sydney Opera House and the stunning harbor.",
-                "Emma Brown",
-                "3",
-                "Theater",
-                4.8f,
-                600000
-        ));
-
-        return tourData;
     }
 
 

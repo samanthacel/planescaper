@@ -63,17 +63,27 @@
         app:layout_constraintStart_toEndOf="@+id/calendar"
         app:layout_constraintTop_toBottomOf="@+id/calendar" />
 
+    <ImageView
+        android:id="@+id/guide"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/person"
+        app:srcCompat="@drawable/icon_tourguide" />
+
     <TextView
-        android:id="@+id/orderPriceTV"
+        android:id="@+id/orderGuideTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TOTAL = Rp2.500.000,-"
-        android:textColor="@color/mainBlue"
-        android:textSize="14dp"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/person" />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:text="Muhammad Ali"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        app:layout_constraintStart_toEndOf="@+id/person"
+        app:layout_constraintTop_toBottomOf="@+id/person" />
 
     <Button
         android:id="@+id/orderDetailBtn"

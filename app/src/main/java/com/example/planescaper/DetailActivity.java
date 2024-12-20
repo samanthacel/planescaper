@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.planescaper.data.OrderData;
 import com.example.planescaper.data.TourData;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -24,6 +27,7 @@ public class DetailActivity extends AppCompatActivity {
     ImageView backBtn, placeIV, minBtn, plusBtn;
     TextView placeTV,locationTV, dateTV, hotelTV, planeTV, guideTV, descTV, personTV, tourpriceTV, taxTV, personPriceTV, totalPriceTV;
     Button bookBtn;
+    DatabaseReference ordersRef;
 
     private int person = 1;
     private int tourPrice, tax, personPrice, totalPrice;
@@ -69,10 +73,25 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         bookBtn.setOnClickListener(v -> {
-            OrderData.getInstance().addOrder(tour);
-            Intent intent = new Intent(DetailActivity.this, TicketActivity.class);
-            intent.putExtra("orderData", new Gson().toJson(tour));
-            startActivity(intent);
+//            OrderData.getInstance().addOrder(tour);
+//            Intent intent = new Intent(DetailActivity.this, TicketActivity.class);
+//            intent.putExtra("orderData", new Gson().toJson(tour));
+//            startActivity(intent);
+
+            ordersRef = FirebaseDatabase.getInstance().getReference("orders");
+            String orderId = ordersRef.push().getKey();
+            if (orderId != null) {
+                ordersRef.child(orderId).setValue(tour)
+                        .addOnSuccessListener(aVoid -> {
+                            OrderData.getInstance().addOrder(tour);
+                            Intent intent = new Intent(DetailActivity.this, TicketActivity.class);
+                            intent.putExtra("orderData", new Gson().toJson(tour));
+                            startActivity(intent);
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(DetailActivity.this, "Failed to add order to Firebase", Toast.LENGTH_SHORT).show();
+                        });
+            }
         });
 
     }
