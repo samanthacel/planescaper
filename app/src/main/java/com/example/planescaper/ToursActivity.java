@@ -2,7 +2,6 @@ package com.example.planescaper;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,11 +16,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.planescaper.adapter.PopularTourAdapter;
 import com.example.planescaper.adapter.TourAdapter;
 import com.example.planescaper.data.TourData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,8 +42,10 @@ public class ToursActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_tours);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.tours), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -57,21 +58,21 @@ public class ToursActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         TourAdapter adapter = new TourAdapter(this, tourData);
-        LinearLayoutManager layoutManager= new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         toursRV.setLayoutManager(layoutManager);
         toursRV.setAdapter(adapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("tours");
-        loadFirebaseData();
+        fetchToursFromFirebase(adapter);
     }
 
-    public void navbar(){
+    public void navbar() {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener(){
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.menuHome:
                         Intent intentHome = new Intent(ToursActivity.this, MainActivity.class);
                         startActivity(intentHome);
@@ -87,7 +88,7 @@ public class ToursActivity extends AppCompatActivity {
         });
     }
 
-    private void loadFirebaseData(){
+    private void fetchToursFromFirebase(TourAdapter adapter) {
         progressBar.setVisibility(View.VISIBLE);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -100,16 +101,15 @@ public class ToursActivity extends AppCompatActivity {
                         tourData.add(tour);
                     }
                 }
-                toursRV.getAdapter().notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("ToursActivity", "Database error: " + error.getMessage());
                 progressBar.setVisibility(View.GONE);
+                Log.e("ToursActivity", "Error fetching data: " + error.getMessage());
             }
         });
     }
-
 }
