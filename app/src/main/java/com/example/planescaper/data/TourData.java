@@ -88,11 +88,11 @@ public class TourData {
         this.date = date;
     }
 
-    public String getDescription() {
+    public String getItinerary() {
         return itinerary;
     }
 
-    public void setDescription(String itinerary) {
+    public void setItinerary(String itinerary) {
         this.itinerary = itinerary;
     }
 

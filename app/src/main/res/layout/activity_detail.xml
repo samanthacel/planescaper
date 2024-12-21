@@ -203,7 +203,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/detailDescTV"
+                    android:id="@+id/detailItineraryTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Day 1 : ..."

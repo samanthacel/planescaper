@@ -25,12 +25,13 @@ import java.text.DecimalFormat;
 public class DetailActivity extends AppCompatActivity {
 
     ImageView backBtn, placeIV, minBtn, plusBtn;
-    TextView placeTV,locationTV, dateTV, hotelTV, planeTV, guideTV, descTV, personTV, tourpriceTV, taxTV, personPriceTV, totalPriceTV;
+    TextView placeTV,locationTV, dateTV, hotelTV, planeTV, guideTV, descTV, personTV, tourpriceTV, taxTV, personPriceTV, totalPriceTV, detailItineraryTV;
     Button bookBtn;
     DatabaseReference ordersRef;
 
     private int person = 1;
     private int tourPrice, tax, personPrice, totalPrice;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class DetailActivity extends AppCompatActivity {
         hotelTV.setText(tour.getHotel());
         planeTV.setText(tour.getPlane());
         guideTV.setText(tour.getGuide());
-        descTV.setText(tour.getDescription());
+        detailItineraryTV.setText(tour.getItinerary());
 
         updateData(tour);
         minBtn.setOnClickListener(v -> {
@@ -105,7 +106,7 @@ public class DetailActivity extends AppCompatActivity {
         hotelTV = findViewById(R.id.detailHotelTV);
         planeTV = findViewById(R.id.detailPlaneTV);
         guideTV = findViewById(R.id.detailGuideTV);
-        descTV = findViewById(R.id.detailDescTV);
+        detailItineraryTV = findViewById(R.id.detailItineraryTV);
         personTV = findViewById(R.id.detailPersonTV);
         tourpriceTV = findViewById(R.id.detailTourpriceTV);
         taxTV = findViewById(R.id.detailTaxTV);
