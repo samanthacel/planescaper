@@ -1,13 +1,16 @@
 package com.example.planescaper;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -15,8 +18,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.planescaper.data.OrderData;
 import com.example.planescaper.data.TourData;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -25,10 +33,8 @@ import java.text.DecimalFormat;
 public class DetailActivity extends AppCompatActivity {
 
     ImageView backBtn, placeIV, minBtn, plusBtn;
-    TextView placeTV,locationTV, dateTV, hotelTV, planeTV, guideTV, descTV, personTV, tourpriceTV, taxTV, personPriceTV, totalPriceTV, detailItineraryTV;
+    TextView placeTV,locationTV, dateTV, hotelTV, planeTV, guideTV, personTV, tourpriceTV, taxTV, personPriceTV, totalPriceTV, detailItineraryTV;
     Button bookBtn;
-    DatabaseReference ordersRef;
-
     private int person = 1;
     private int tourPrice, tax, personPrice, totalPrice;
 
@@ -74,26 +80,45 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         bookBtn.setOnClickListener(v -> {
-//            OrderData.getInstance().addOrder(tour);
-//            Intent intent = new Intent(DetailActivity.this, TicketActivity.class);
-//            intent.putExtra("orderData", new Gson().toJson(tour));
-//            startActivity(intent);
+            SharedPreferences sharedPreferences = getSharedPreferences("Preferences", MODE_PRIVATE);
+            String userId = sharedPreferences.getString("userId", null);
 
-            ordersRef = FirebaseDatabase.getInstance().getReference("orders");
-            String orderId = ordersRef.push().getKey();
-            if (orderId != null) {
-                ordersRef.child(orderId).setValue(tour)
-                        .addOnSuccessListener(aVoid -> {
-                            OrderData.getInstance().addOrder(tour);
-                            Intent intent = new Intent(DetailActivity.this, TicketActivity.class);
-                            intent.putExtra("orderData", new Gson().toJson(tour));
-                            startActivity(intent);
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(DetailActivity.this, "Failed to add order to Firebase", Toast.LENGTH_SHORT).show();
-                        });
-            }
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        DatabaseReference orderRef = userRef.child("orders");
+                        String orderId = orderRef.push().getKey();
+
+                        Log.d("DetailActivity", "Order ID: " + orderId);
+
+                        if (orderId != null) {
+                            orderRef.child(orderId).setValue(tour).addOnSuccessListener(aVoid -> {
+                                Toast.makeText(DetailActivity.this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(DetailActivity.this, TicketActivity.class);
+                                intent.putExtra("orderData", new Gson().toJson(tour));
+                                startActivity(intent);
+                            }).addOnFailureListener(e -> {
+                                Toast.makeText(DetailActivity.this, "Failed to place order: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                        } else {
+                            Toast.makeText(DetailActivity.this, "Failed to generate order ID", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(DetailActivity.this, "User profile not found", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(DetailActivity.this, "Error fetching user profile: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
+
 
     }
 

@@ -54,11 +54,12 @@
                     tools:ignore="RtlCompat" />
 
                 <ImageView
-                    android:id="@+id/mainNotifIV"
+                    android:id="@+id/mainLogoutIV"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
-                    app:srcCompat="@drawable/icon_notif" />
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/icon_logout" />
 
             </LinearLayout>
 

@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Planescaper</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+<!--    <string name="client_id">611588453110-86t292458al5n613nhm3sjo1ujg4sptf.apps.googleusercontent.com</string>-->
+    <string name="client_id">611588453110-t9o063gafaf206gvtgbkq2lga8qdi680.apps.googleusercontent.com</string>
 </resources>

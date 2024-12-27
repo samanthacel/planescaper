@@ -36,7 +36,6 @@ public class ToursActivity extends AppCompatActivity {
     ProgressBar progressBar;
     List<TourData> tourData = new ArrayList<>();
     DatabaseReference databaseReference;
-    ValueEventListener eventListener;
     BottomNavigationView bottomNavigationView;
 
     @Override

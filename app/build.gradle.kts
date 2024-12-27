@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -52,6 +53,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation (libs.core)
     implementation (libs.zxing.android.embedded)
+    implementation(libs.play.services.auth)
 
 
 }

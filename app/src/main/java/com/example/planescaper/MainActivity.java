@@ -1,11 +1,13 @@
 package com.example.planescaper;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ import com.example.planescaper.data.TourData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView popularRV;
     ProgressBar progressBar;
+    ImageView logoutBtn;
     List<TourData> tourData = new ArrayList<>();
     DatabaseReference databaseReference;
-    ValueEventListener eventListener;
     BottomNavigationView bottomNavigationView;
-    TextView mainNameTextView;
+    TextView mainNameTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +59,15 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-
-
-
         navbar();
+        mainNameTV = findViewById(R.id.mainNameTV);
+        logoutBtn = findViewById(R.id.mainLogoutIV);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("Preferences", MODE_PRIVATE);
+        String name = sharedPreferences.getString("name", null);
 
-        mainNameTextView = findViewById(R.id.mainNameTV);
-        String username = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-                .getString("username", "Username");
-        mainNameTextView.setText("Hey, " + username + "!");
+        String firstName = name.split(" ")[0];
+        mainNameTV.setText("Hey, " + firstName +"!");
 
         popularRV = findViewById(R.id.mainPopularRV);
         progressBar = findViewById(R.id.progressBar);
@@ -80,8 +82,14 @@ public class MainActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("tours");
         fetchToursFromFirebase(adapter);
 
+        logoutBtn.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
     }
-
 
     public void navbar(){
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -135,6 +143,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

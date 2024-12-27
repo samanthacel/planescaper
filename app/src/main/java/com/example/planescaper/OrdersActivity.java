@@ -1,8 +1,10 @@
 package com.example.planescaper;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -22,6 +24,7 @@ import com.example.planescaper.data.OrderData;
 import com.example.planescaper.data.TourData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,21 +59,26 @@ public class OrdersActivity extends AppCompatActivity {
         ordersRV = findViewById(R.id.ordersRV);
         progressBar = findViewById(R.id.progressBar);
 
-
         OrderAdapter adapter = new OrderAdapter(this, orderData);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         ordersRV.setLayoutManager(layoutManager);
         ordersRV.setAdapter(adapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("orders");
         fetchOrdersFromFirebase(adapter);
-
     }
 
     private void fetchOrdersFromFirebase(OrderAdapter adapter) {
-        DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference("orders");
-        ordersRef.addValueEventListener(new ValueEventListener() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Preferences", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", null);
+        Log.d("OrdersActivity", "User ID: " + userId);
+
+        DatabaseReference userOrdersRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
+                .child("orders");
+
+        userOrdersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 orderData.clear();

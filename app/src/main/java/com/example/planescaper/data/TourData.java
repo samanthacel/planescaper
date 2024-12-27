@@ -3,7 +3,7 @@ package com.example.planescaper.data;
 import java.text.DecimalFormat;
 
 public class TourData {
-    private String placeName, imageUrl, location, hotel, plane, date, itinerary, guide, category;
+    private String id, placeName, imageUrl, location, hotel, plane, date, itinerary, guide, category;
     private float rating;
     private int price, person = 1, tax, personPrice, totalPrice;
 
@@ -46,6 +46,14 @@ public class TourData {
 
     public void setName(String placeName) {
         this.placeName = placeName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getImageUrl() {
