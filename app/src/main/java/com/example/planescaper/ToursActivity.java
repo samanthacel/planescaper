@@ -2,10 +2,15 @@ package com.example.planescaper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -32,11 +37,12 @@ import java.util.List;
 
 public class ToursActivity extends AppCompatActivity {
 
-    RecyclerView toursRV;
-    ProgressBar progressBar;
-    List<TourData> tourData = new ArrayList<>();
-    DatabaseReference databaseReference;
-    BottomNavigationView bottomNavigationView;
+    private RecyclerView toursRV;
+    private ProgressBar progressBar;
+    private List<TourData> tourData = new ArrayList<>();
+    private BottomNavigationView bottomNavigationView;
+    private EditText searchBar;
+    private ImageView searchBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,8 @@ public class ToursActivity extends AppCompatActivity {
 
         toursRV = findViewById(R.id.toursRV);
         progressBar = findViewById(R.id.progressBar);
+        searchBar = findViewById(R.id.tourSearchbar);
+        searchBtn = findViewById(R.id.tourSearchBtn);
 
         TourAdapter adapter = new TourAdapter(this, tourData);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -62,8 +70,36 @@ public class ToursActivity extends AppCompatActivity {
         toursRV.setLayoutManager(layoutManager);
         toursRV.setAdapter(adapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("tours");
-        fetchToursFromFirebase(adapter);
+        String searchQuery = getIntent().getStringExtra("searchQuery");
+        String category = getIntent().getStringExtra("category");
+
+        if (searchQuery != null) {
+            searchBar.setText(searchQuery);
+            searchTours(searchQuery, adapter, progressBar);
+        } else if (category != null) {
+            fetchToursByCategory(category, adapter, progressBar);
+        } else {
+            fetchToursByCategory("All", adapter, progressBar);
+        }
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchTours(s.toString().trim(), adapter, progressBar);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     public void navbar() {
@@ -80,6 +116,8 @@ public class ToursActivity extends AppCompatActivity {
                         Intent intentOrders = new Intent(ToursActivity.this, OrdersActivity.class);
                         startActivity(intentOrders);
                         return true;
+                    case R.id.menuTours:
+                        return true;
                     default:
                         return false;
                 }
@@ -87,8 +125,9 @@ public class ToursActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchToursFromFirebase(TourAdapter adapter) {
+    private void searchTours(String query, TourAdapter adapter, ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("tours");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,19 +135,73 @@ public class ToursActivity extends AppCompatActivity {
                 tourData.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     TourData tour = dataSnapshot.getValue(TourData.class);
-                    if (tour != null) {
+                    if (tour != null &&
+                            (tour.getName().toLowerCase().contains(query.toLowerCase()) ||
+                                    tour.getCategory().toLowerCase().contains(query.toLowerCase()) ||
+                                    tour.getLocation().toLowerCase().contains(query.toLowerCase()))) {
                         tourData.add(tour);
                     }
                 }
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
+
+                if (tourData.isEmpty()) {
+                    Toast.makeText(ToursActivity.this, "No results found for \"" + query + "\"", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressBar.setVisibility(View.GONE);
-                Log.e("ToursActivity", "Error fetching data: " + error.getMessage());
+                Log.e("ToursActivity", "Error searching tours: " + error.getMessage());
             }
         });
+    }
+
+    private void fetchToursByCategory(String category, TourAdapter adapter, ProgressBar progressBar) {
+        progressBar.setVisibility(View.VISIBLE);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("tours");
+
+        if ("All".equals(category)) {
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    tourData.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        TourData tour = dataSnapshot.getValue(TourData.class);
+                        if (tour != null) {
+                            tourData.add(tour);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        } else {
+            databaseReference.orderByChild("category").equalTo(category).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    tourData.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        TourData tour = dataSnapshot.getValue(TourData.class);
+                        if (tour != null) {
+                            tourData.add(tour);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        }
     }
 }
