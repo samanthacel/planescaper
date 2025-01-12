@@ -16,10 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.planescaper.data.OrderData;
 import com.example.planescaper.data.TourData;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +55,7 @@ public class DetailActivity extends AppCompatActivity {
         TourData tour = new Gson().fromJson(tourJson, TourData.class);
 
         Picasso.get().load(tour.getImageUrl()).into(placeIV);
-        placeTV.setText(tour.getName());
+        placeTV.setText(tour.getPlaceName());
         locationTV.setText(tour.getLocation());
         dateTV.setText(tour.getDate());
         hotelTV.setText(tour.getHotel());

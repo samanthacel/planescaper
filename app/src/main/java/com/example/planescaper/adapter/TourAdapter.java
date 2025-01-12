@@ -2,7 +2,6 @@ package com.example.planescaper.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
 
         Picasso.get().load(tour.getImageUrl()).into(holder.placeIV);
         holder.ratingTV.setText(String.valueOf(tour.getRating()));
-        holder.placeTV.setText(tour.getName());
+        holder.placeTV.setText(tour.getPlaceName());
         holder.locationTV.setText(tour.getLocation());
         holder.priceTV.setText(tour.getFormattedPrice(tour.getPrice()));
         holder.dateTV.setText(tour.getDate());

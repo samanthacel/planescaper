@@ -48,7 +48,7 @@ public class TicketActivity extends AppCompatActivity {
         TourData tour = new Gson().fromJson(tourJson, TourData.class);
 
         Picasso.get().load(tour.getImageUrl()).into(placeIV);
-        placeTV.setText(tour.getName());
+        placeTV.setText(tour.getPlaceName());
         locationTV.setText(tour.getLocation());
         dateTV.setText(tour.getDate());
         hotelTV.setText(tour.getHotel());

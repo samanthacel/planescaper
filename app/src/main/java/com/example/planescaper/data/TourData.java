@@ -40,7 +40,7 @@ public class TourData {
         return totalPrice;
     }
 
-    public String getName() {
+    public String getPlaceName() {
         return placeName;
     }
 

@@ -47,7 +47,7 @@ public class PopularTourAdapter extends RecyclerView.Adapter<PopularTourAdapter.
 
         Picasso.get().load(tour.getImageUrl()).into(holder.placeIV);
         holder.ratingTV.setText(String.valueOf(tour.getRating()));
-        holder.placeTV.setText(tour.getName());
+        holder.placeTV.setText(tour.getPlaceName());
         holder.locationTV.setText(tour.getLocation());
         holder.priceTV.setText(tour.getFormattedPrice(tour.getPrice()));
 

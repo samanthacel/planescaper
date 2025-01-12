@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.planescaper.DetailActivity;
 import com.example.planescaper.R;
 import com.example.planescaper.TicketActivity;
 import com.example.planescaper.data.TourData;
@@ -43,7 +42,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     public void onBindViewHolder(@NonNull OrderAdapter.OrderViewHolder holder, int position) {
         TourData order = orderData.get(position);
 
-        holder.placeTV.setText(order.getName());
+        holder.placeTV.setText(order.getPlaceName());
         holder.dateTV.setText(order.getDate());
         holder.personTV.setText(String.valueOf(order.getPerson() + " person"));
         holder.guideTV.setText(order.getGuide());

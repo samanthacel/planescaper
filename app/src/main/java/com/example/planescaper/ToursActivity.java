@@ -136,7 +136,7 @@ public class ToursActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     TourData tour = dataSnapshot.getValue(TourData.class);
                     if (tour != null &&
-                            (tour.getName().toLowerCase().contains(query.toLowerCase()) ||
+                            (tour.getPlaceName().toLowerCase().contains(query.toLowerCase()) ||
                                     tour.getCategory().toLowerCase().contains(query.toLowerCase()) ||
                                     tour.getLocation().toLowerCase().contains(query.toLowerCase()))) {
                         tourData.add(tour);
@@ -170,6 +170,7 @@ public class ToursActivity extends AppCompatActivity {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         TourData tour = dataSnapshot.getValue(TourData.class);
                         if (tour != null) {
+                            Log.d("MainActivity", "Tour Name: " + tour.getPlaceName());
                             tourData.add(tour);
                         }
                     }

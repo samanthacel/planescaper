@@ -3,7 +3,6 @@ package com.example.planescaper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -26,7 +25,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planescaper.adapter.PopularTourAdapter;
+import com.example.planescaper.adapter.WondersAdapter;
 import com.example.planescaper.data.TourData;
+import com.example.planescaper.data.WondersData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseApp;
@@ -43,10 +44,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView popularRV;
+    private RecyclerView popularRV, wondersRV;
     private ProgressBar progressBar;
     private ImageView logoutBtn;
     private List<TourData> tourData = new ArrayList<>();
+    private List<WondersData> wondersData = new ArrayList<>();
     private LinearLayout mountainMenu, beachMenu, forestMenu, desertMenu, citiesMenu;
     private EditText searchBar;
     private ImageView searchBtn;
@@ -77,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         searchBar = findViewById(R.id.mainSearchbar);
         searchBtn = findViewById(R.id.mainSearchBtn);
 
-
         SharedPreferences sharedPreferences = getSharedPreferences("Preferences", MODE_PRIVATE);
         String name = sharedPreferences.getString("name", null);
 
@@ -87,15 +88,25 @@ public class MainActivity extends AppCompatActivity {
         popularRV = findViewById(R.id.mainPopularRV);
         progressBar = findViewById(R.id.progressBar);
 
-        PopularTourAdapter adapter = new PopularTourAdapter(this, tourData);
+        PopularTourAdapter popularAdapter = new PopularTourAdapter(this, tourData);
 
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         popularRV.setLayoutManager(layoutManager);
-        popularRV.setAdapter(adapter);
+        popularRV.setAdapter(popularAdapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("tours");
-        fetchToursFromFirebase(adapter);
+        fetchPopularTours(popularAdapter);
+
+        wondersRV = findViewById(R.id.mainWondersRV);
+        WondersAdapter wondersAdapter = new WondersAdapter(this, wondersData);
+
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this);
+        layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        wondersRV.setLayoutManager(layoutManager1);
+        wondersRV.setAdapter(wondersAdapter);
+
+        fetchWondersData(wondersAdapter);
 
         logoutBtn.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
@@ -162,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchToursFromFirebase(PopularTourAdapter adapter) {
+    private void fetchPopularTours(PopularTourAdapter adapter) {
         progressBar.setVisibility(View.VISIBLE);
 
         databaseReference.orderByChild("rating").limitToLast(5).addValueEventListener(new ValueEventListener() {
@@ -193,4 +204,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void fetchWondersData(WondersAdapter wondersAdapter) {
+        progressBar.setVisibility(View.VISIBLE);
+
+        databaseReference.orderByChild("category").limitToLast(3).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                wondersData.clear();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    TourData tour = dataSnapshot.getValue(TourData.class);
+                    if (tour != null) {
+                        String category = tour.getCategory();
+                        if (category != null && !category.isEmpty()) {
+                            String imageUrl = tour.getImageUrl();
+                            WondersData wonders = new WondersData(imageUrl);
+                            wondersData.add(wonders);
+                        }
+                    }
+                }
+
+                wondersAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressBar.setVisibility(View.GONE);
+                Log.e("MainActivity", "Error fetching wonders data: " + error.getMessage());
+            }
+        });
+    }
+
+
 }
